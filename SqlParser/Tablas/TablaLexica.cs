@@ -18,10 +18,14 @@ namespace SqlParser.Tablas
         public TablaReservada tablaRes = new TablaReservada();
 
         public string regexT1 = "(\\W|^)SELECT(\\W|$)|(\\W|^)FROM(\\W|$)|(\\W|^)WHERE(\\W|$)|(\\W|^)IN(\\W|$)|(\\W|^)AND(\\W|$)|(\\W|^)OR(\\W|$)|(\\W|^)CREATE(\\W|$)|(\\W|^)TABLE(\\W|$)|(\\W|^)CHAR(\\W|$)|(\\W|^)NUMERIC(\\W|$)|(\\W|^)NOT(\\W|$)|(\\W|^)NULL(\\W|$)|(\\W|^)CONSTRAINT(\\W|$)|(\\W|^)KEY(\\W|$)|(\\W|^)PRIMARY(\\W|$)|(\\W|^)FOREIGIN(\\W|$)| (\\W|^)FOREIGN(\\W|$)|(\\W|^)REFERENCES(\\W|$)|(\\W|^)INSERT(\\W|$)|(\\W|^)INTO(\\W|$)|(\\W|^)VALUES(\\W|$)";
-        public string regexT2 = "(\\W|^)'\\w+'(\\W|$)";
-        public string regexT3 = "";
-        public string regexT4 = "";
-        public string regexT5 = "";
+        public string regexT6 = "(\\W|^)'\\w+'(\\W|$)";
+        public string regexT5 = "(\\W|^),(\\W|$)|(\\W|^)\\.(\\W|$)|(\\W|^)\\((\\W|$)|(\\W|^)\\)(\\W|$)|(\\W|^)'(\\W|$)|(\\W|^);(\\W|$)";
+        public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
+        public string regexT7 = "(\\W|^)\\+(\\W|$)|(\\W|^)-(\\W|$)|(\\W|^)\\*(\\W|$)|(\\W|^)/(\\W|$)";
+        public string regexT8 = "(\\W|^)>(\\W|$)|(\\W|^)<(\\W|$)|(\\W|^)=(\\W|$)|(\\W|^)<=(\\W|$)|(\\W|^)>=(\\W|$)";
+
+        public bool error = false;
+        public int lError;
 
         public Token[] palabras;
 
@@ -36,23 +40,52 @@ namespace SqlParser.Tablas
 
                 //Regex.IsMatch(palabra, @"\d+")
                 if (Regex.IsMatch(palabras[x], @regexT1)) { // Tipo 1 - Reservadas
+
                     Reservada apuntador = this.darReservada(palabras[x]);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 1, apuntador.valor);
 
-                } else if (Regex.IsMatch(palabras[x], @regexT2)) { // Tipo 4 - Cosntantes
+                }else if (palabras[x - 1] != null && palabras[x + 1] != null && palabras[x - 1].Equals('\'') 
+                          && palabras[x + 1].Equals('\'') && Regex.IsMatch(palabras[x], @regexT6)) { // Tipo 6 - Cosntantes
+
                     Constante apuntador = this.darConstante(palabras[x], tablaC);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 1, apuntador.valor);
+                    this.palabras[x] = new Token(lineas[x], palabras[x], 6, apuntador.valor);
 
-                } else if () { // Tipo 5 - 
+                } else if (Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
 
-                } else if () { // Tipo 6 -
+                    Delimitador apuntador = this.darDelimitador(palabras[x]);
+                    this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
 
-                } else if () { // Tipo 7 -
+                } else if (Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
 
-                } else if () { // Tipo 8 -
+                    Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
+                    if (apuntador != null) {
+
+                        this.palabras[x] = new Token(lineas[x], palabras[x], 4, apuntador.valor);
+
+                    }
+                    
+
+                } else if (Regex.IsMatch(palabras[x], @regexT7)) { // Tipo 7 - Operadores
+
+                    Operador apuntador = this.darOperador(palabras[x]);
+                    this.palabras[x] = new Token(lineas[x], palabras[x], 7, apuntador.valor);
+
+                } else if (Regex.IsMatch(palabras[x], @regexT8)) { // Tipo 8 - Relacionales
+
+                    Relacional apuntador = this.darRelacional(palabras[x]);
+                    this.palabras[x] = new Token(lineas[x], palabras[x], 8, apuntador.valor);
 
                 } else { // Error
+
                     x = palabras.Length;
+                    this.error = true;
+
+                    Console.WriteLine(palabras[x]);
+
+                    this.lError = lineas[x];
+
+                    
+
                 }
 
             }
@@ -76,7 +109,7 @@ namespace SqlParser.Tablas
         {
             for (int x = 0; x < ti.palabras.Length; x++)
             {
-                if (ti.palabras[x].palabra.Equals(palabra))
+                if (ti != null && ti.palabras[x] != null && ti.palabras[x].palabra != null && ti.palabras[x].palabra.Equals(palabra))
                 {
                     return ti.palabras[x];
                 }

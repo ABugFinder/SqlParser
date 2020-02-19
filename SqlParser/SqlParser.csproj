@@ -67,6 +67,7 @@
     <Compile Include="Tablas\TablaConstante.cs" />
     <Compile Include="Tablas\TablaDelimitador.cs" />
     <Compile Include="Tablas\TablaIdentificador.cs" />
+    <Compile Include="Tablas\TablaIniciador.cs" />
     <Compile Include="Tablas\TablaLexica.cs" />
     <Compile Include="Tablas\TablaOperador.cs" />
     <Compile Include="Tablas\TablaRelacional.cs" />

@@ -46,6 +46,7 @@
             this.Identificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValorIdentificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LineaIdentificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TablaLexica)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablaConstantes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablaIdentificador)).BeginInit();
@@ -61,12 +62,13 @@
             // 
             // BtnIniciar
             // 
-            this.BtnIniciar.Location = new System.Drawing.Point(159, 191);
+            this.BtnIniciar.Location = new System.Drawing.Point(12, 191);
             this.BtnIniciar.Name = "BtnIniciar";
             this.BtnIniciar.Size = new System.Drawing.Size(164, 23);
             this.BtnIniciar.TabIndex = 0;
             this.BtnIniciar.Text = "Iniciar";
             this.BtnIniciar.UseVisualStyleBackColor = true;
+            this.BtnIniciar.Click += new System.EventHandler(this.BtnIniciar_Click);
             // 
             // TablaLexica
             // 
@@ -169,11 +171,21 @@
             this.LineaIdentificador.HeaderText = "Linea";
             this.LineaIdentificador.Name = "LineaIdentificador";
             // 
+            // labelError
+            // 
+            this.labelError.AutoSize = true;
+            this.labelError.Location = new System.Drawing.Point(182, 196);
+            this.labelError.Name = "labelError";
+            this.labelError.Size = new System.Drawing.Size(32, 13);
+            this.labelError.TabIndex = 5;
+            this.labelError.Text = "Error:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(919, 406);
+            this.Controls.Add(this.labelError);
             this.Controls.Add(this.TablaIdentificador);
             this.Controls.Add(this.TablaConstantes);
             this.Controls.Add(this.TablaLexica);
@@ -210,6 +222,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificador;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValorIdentificador;
         private System.Windows.Forms.DataGridViewTextBoxColumn LineaIdentificador;
+        private System.Windows.Forms.Label labelError;
     }
 }
 

@@ -23,11 +23,11 @@ namespace SqlParser
                 AND CNOMBRE='ISC' AND SEMESTRE='2017II' AND CALIFICACION >= 70
              */
 
-            /*
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            */
+           
         }
     }
 }

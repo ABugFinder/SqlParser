@@ -32,7 +32,7 @@ namespace SqlParser.Simbolos
 
             //rRegex.isMatch(cadena,@"\d+");
 
-            if (Regex.IsMatch(palabra, @"\d+"))
+            if (palabra != null && Regex.IsMatch(palabra, @"\d+"))
             {
                 return 61;
             }
