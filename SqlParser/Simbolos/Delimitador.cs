@@ -8,12 +8,12 @@ namespace SqlParser.Simbolos
 {
 	public class Delimitador
 	{
-		public String delimitador;
+		public String palabra;
 		public int valor;
 
 		public Delimitador(String delimitador, int valor)
 		{
-			this.delimitador = delimitador;
+			this.palabra = delimitador;
 			this.valor = valor;
 		}
 

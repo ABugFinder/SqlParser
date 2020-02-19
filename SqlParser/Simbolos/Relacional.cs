@@ -8,12 +8,12 @@ namespace SqlParser.Simbolos
 {
     public class Relacional
     {
-        public String relacional;
+        public String palabra;
         public int valor;
 
         public Relacional(String relacional, int valor)
         {
-            this.relacional = relacional;
+            this.palabra = relacional;
             this.valor = valor;
         }
     }

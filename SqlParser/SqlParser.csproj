@@ -63,7 +63,11 @@
     <Compile Include="Pila.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tablas\CrearTablas.cs" />
+    <Compile Include="Tablas\TablaConstante.cs" />
     <Compile Include="Tablas\TablaDelimitador.cs" />
+    <Compile Include="Tablas\TablaIdentificador.cs" />
+    <Compile Include="Tablas\TablaLexica.cs" />
     <Compile Include="Tablas\TablaOperador.cs" />
     <Compile Include="Tablas\TablaRelacional.cs" />
     <Compile Include="Tablas\TablaReservada.cs" />

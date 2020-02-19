@@ -16,12 +16,12 @@ namespace SqlParser
         [STAThread]
         static void Main()
         {
-
-            //Identificador(String palabra, String linea)
-            Identificador prueba1 = new Identificador("Alumnos", 10);
-            Identificador prueba2 = new Identificador("ProfesGeis", 10);
-
-            Console.WriteLine(prueba1.valor + " - " + prueba2.valor + " - " + prueba2.palabra);
+            /*
+                SELECT ANOMBRE, CALIFICACION, TURNO
+                FROM ALUMNOS, INSCRITOS, MATERIAS, CARRERAS
+                WHERE MNOMBRE='LENAUT2' AND TURNO = 'TM'
+                AND CNOMBRE='ISC' AND SEMESTRE='2017II' AND CALIFICACION >= 70
+             */
 
             /*
             Application.EnableVisualStyles();

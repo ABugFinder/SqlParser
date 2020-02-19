@@ -10,17 +10,17 @@ namespace SqlParser.Tablas
 {
     class CrearTablas
     {
-        public TablaDelimitador tablaD = new TablaDelimitador();
-        public TablaOperador tablaO = new TablaOperador();
-        public TablaRelacional tablaRel = new TablaRelacional();
-        public TablaReservada tablaRes = new TablaReservada();
-
+        // Tablas dinámicas
         public TablaConstante tablaC;
+        public TablaIdentificador tablaI;
+        public TablaLexica tablaL;
 
-        public CrearTablas(String[] palabras, String[] constantes, String[] identificadores,
-                           int[] nConstantes, int[] lIdentificador)
+        public CrearTablas(String[] palabras, int[] lineas, String[] constantes, 
+                           String[] identificadores, int[] nConstantes, int[] lIdentificadores)
         {
             this.tablaC = new TablaConstante(constantes, nConstantes);
+            this.tablaI = new TablaIdentificador(identificadores, lIdentificadores);
+            this.tablaL = new TablaLexica(palabras, lineas, tablaI, tablaC);
         }
 
     }

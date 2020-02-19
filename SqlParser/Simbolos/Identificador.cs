@@ -12,15 +12,35 @@ namespace SqlParser
 
         public String palabra;
         public int valor;
-        public int linea;
+        public String linea;
+        public int[] lineas = new int[10];
 
-        public Identificador(String palabra, int linea) {
+
+        public Identificador(String palabra, String linea) {
 
             this.palabra = palabra;
             this.valor = svalor;
             svalor++;
-            this.linea = linea; 
+            this.linea = linea;
+            this.lineas.Prepend(Convert.ToInt32(linea));
+        }
 
+        public void concatenarLinea(int linea)
+        {
+            this.linea = this.linea + "," + Convert.ToString(linea);
+            this.lineas.Prepend(Convert.ToInt32(linea));
+        }
+
+        public bool existeLinea(int linea)
+        {
+            for (int x = 0; x < lineas.Length; x++)
+            {
+                if (lineas[x].Equals(linea))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
  
     }

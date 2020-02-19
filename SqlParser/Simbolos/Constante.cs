@@ -34,11 +34,11 @@ namespace SqlParser.Simbolos
 
             if (Regex.IsMatch(palabra, @"\d+"))
             {
-
                 return 61;
-
             }
             else {
+
+                this.palabra = "Constante";
 
                 return 62;
             }

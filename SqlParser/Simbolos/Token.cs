@@ -8,19 +8,22 @@ namespace SqlParser.Simbolos
 {
     class Token
     {
+        public static int sNumero = 1;
+
         public int numero;
         public int linea;
         public String palabra;
         public int tipo;
         public int codigo;
 
-        public Token(int numero ,int linea,String palabra ,Constante[]constantes, Identificador[]Identificadores)
+        public Token(int linea, String palabra, int tipo, int codigo)
         {
-
-            this.numero = numero;
+            this.numero = sNumero;
+            sNumero++;
             this.linea = linea;
             this.palabra = palabra;
-
+            this.tipo = tipo;
+            this.codigo = codigo;
         }
         
     }

@@ -8,12 +8,12 @@ namespace SqlParser.Simbolos
 {
 	public class Operador
 	{
-		public String operador;
+		public String palabra;
 		public int valor;
 
 		public Operador(String operador, int valor)
 		{
-			this.operador = operador;
+			this.palabra = operador;
 			this.valor = valor;
 		}
 	}

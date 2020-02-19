@@ -8,13 +8,13 @@ namespace SqlParser.Simbolos
 {
     public class Reservada
     {
-        public String lexema;
+        public String palabra;
         public String simbolo;
         public int valor;
 
         public Reservada(String lexema, String simbolo, int valor)
         {
-            this.lexema = lexema;
+            this.palabra = lexema;
             this.simbolo = simbolo;
             this.valor = valor;
         }
