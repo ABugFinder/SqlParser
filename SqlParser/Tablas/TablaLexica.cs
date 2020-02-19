@@ -26,6 +26,7 @@ namespace SqlParser.Tablas
 
         public bool error = false;
         public int lError;
+        public String pError;
 
         public Token[] palabras;
 
@@ -39,23 +40,22 @@ namespace SqlParser.Tablas
             {
 
                 //Regex.IsMatch(palabra, @"\d+")
-                if (Regex.IsMatch(palabras[x], @regexT1)) { // Tipo 1 - Reservadas
+                if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT1)) { // Tipo 1 - Reservadas
 
                     Reservada apuntador = this.darReservada(palabras[x]);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 1, apuntador.valor);
 
-                }else if (palabras[x - 1] != null && palabras[x + 1] != null && palabras[x - 1].Equals('\'') 
-                          && palabras[x + 1].Equals('\'') && Regex.IsMatch(palabras[x], @regexT6)) { // Tipo 6 - Cosntantes
+                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT6)) { // Tipo 6 - Cosntantes
 
                     Constante apuntador = this.darConstante(palabras[x], tablaC);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 6, apuntador.valor);
 
-                } else if (Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
+                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
 
                     Delimitador apuntador = this.darDelimitador(palabras[x]);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
 
-                } else if (Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
+                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
 
                     Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
                     if (apuntador != null) {
@@ -63,27 +63,26 @@ namespace SqlParser.Tablas
                         this.palabras[x] = new Token(lineas[x], palabras[x], 4, apuntador.valor);
 
                     }
-                    
 
-                } else if (Regex.IsMatch(palabras[x], @regexT7)) { // Tipo 7 - Operadores
+
+                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT7)) { // Tipo 7 - Operadores
 
                     Operador apuntador = this.darOperador(palabras[x]);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 7, apuntador.valor);
 
-                } else if (Regex.IsMatch(palabras[x], @regexT8)) { // Tipo 8 - Relacionales
+                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT8)) { // Tipo 8 - Relacionales
 
                     Relacional apuntador = this.darRelacional(palabras[x]);
                     this.palabras[x] = new Token(lineas[x], palabras[x], 8, apuntador.valor);
 
                 } else { // Error
 
-                    x = palabras.Length;
+                    this.lError = lineas[x]+1;
                     this.error = true;
+                    this.pError = palabras[x];
 
-                    Console.WriteLine(palabras[x]);
-
-                    this.lError = lineas[x];
-
+                    x = palabras.Length;
+                    
                     
 
                 }

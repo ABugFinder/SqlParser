@@ -24,15 +24,21 @@ namespace SqlParser.Tablas
         public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
         public string regexT6 = "(\\W|^)'\\w+'(\\W|$)";
 
-        int contPalabras = 0;
+        int contPalabras = 1;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
         public TablaIniciador(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
             if (!texto.Equals("")) {
 
-                Console.WriteLine("entro");
 
                 this.separarPalabras(texto);
+
+                //imprimir las palabras en consola eliminar despues
+                for (int x = 0; x < this.constantes.Length; x++) {
+
+                    Console.WriteLine(this.constantes[x]);
+
+                }
 
                 tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores, this.nConstantes, this.lIdentificadores);
 
@@ -51,39 +57,46 @@ namespace SqlParser.Tablas
 
             for (int linea = 0; linea < lineas.Length; linea++)
             {
-                String[] lPalabras = lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"()");//lineas[linea].Split(',','\'',' ','.',';');
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
-                    if ((numPalabra-1)!=-1 && (numPalabra+1)<lineas[linea].Length && palabras[numPalabra - 1] != null && palabras[numPalabra + 1] != null && palabras[numPalabra - 1].Equals('\'')
-                          && palabras[numPalabra + 1].Equals('\'') && Regex.IsMatch(palabras[numPalabra], @regexT6))
+                    if (lPalabras[numPalabra] != null  && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
                     { // Tipo 6 - Cosntantes
 
+                        Console.WriteLine("entro");
+
                         this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea;
+                        this.lineas[this.contPalabras] = linea+1;
 
                         this.constantes.Prepend(lPalabras[numPalabra]);
                         this.nConstantes.Prepend(contPalabras);
 
+                        contPalabras++;
+
 
                     }
-                    else if (palabras != null && palabras[numPalabra] != null && Regex.IsMatch(palabras[numPalabra], @regexT4))
+                    else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
                     { //tipo 4 - Identificador 
 
                         this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea;
+                        this.lineas[this.contPalabras] = linea+1;
 
                         this.identificadores.Prepend(lPalabras[numPalabra]);
-                        this.lIdentificadores.Prepend(linea);
+                        this.lIdentificadores.Prepend(linea+1);
+
+                        contPalabras++;
 
                     }
                     else {
 
                         this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea;
+                        this.lineas[this.contPalabras] = linea+1;
+
+                        contPalabras++;
                     }
 
-                    contPalabras++;
+                    
                 }
             }
         }
@@ -91,13 +104,23 @@ namespace SqlParser.Tablas
         private void llenarTablasLexica(DataGridView tablaLexica, CrearTablas tablas) {
 
             for (int x = 0; x < tablas.tablaL.palabras.Length; x++) {
-                String[] datos = {Convert.ToString(tablas.tablaL.palabras[x].numero), 
+
+
+                if (tablas != null && tablas.tablaL != null && tablas.tablaL.palabras[x]!=null) {
+
+                    String[] datos =       {Convert.ToString(tablas.tablaL.palabras[x].numero),
                                   Convert.ToString(tablas.tablaL.palabras[x].linea),
                                   tablas.tablaL.palabras[x].palabra,
                                   Convert.ToString(tablas.tablaL.palabras[x].tipo),
                                   Convert.ToString(tablas.tablaL.palabras[x].codigo)};
 
-                tablaLexica.Rows.Add(datos);
+                    tablaLexica.Rows.Add(datos);
+
+                }
+
+
+
+
             }
         }
 
@@ -106,24 +129,35 @@ namespace SqlParser.Tablas
 
             for (int x = 0; x < tablas.tablaC.palabras.Length; x++)
             {
-                String[] datos = {Convert.ToString(tablas.tablaC.palabras[x].numero),
+
+
+                if (tablas != null && tablas.tablaC != null && tablas.tablaC.palabras[x] != null)
+                {
+                    String[] datos = {Convert.ToString(tablas.tablaC.palabras[x].numero),
                                   tablas.tablaC.palabras[x].palabra,
                                   Convert.ToString(tablas.tablaC.palabras[x].tipo),
                                   Convert.ToString(tablas.tablaC.palabras[x].valor)};
 
-                tablaConstante.Rows.Add(datos);
+                    tablaConstante.Rows.Add(datos); 
+                }
             }
         }
+        //'
+        //*PALABRA ASDAD ASD ASD  FGDFGDFG
+       // '
 
         private void llenarTablasIdentificador(DataGridView tablaIdentificador, CrearTablas tablas)
         {
             for (int x = 0; x < tablas.tablaI.palabras.Length; x++)
             {
-                String[] datos = { tablas.tablaI.palabras[x].palabra,
+                if (tablas != null && tablas.tablaI != null && tablas.tablaI.palabras[x] != null)
+                {
+                    String[] datos = { tablas.tablaI.palabras[x].palabra,
                                   Convert.ToString(tablas.tablaI.palabras[x].valor),
                                   tablas.tablaI.palabras[x].linea};
 
-                tablaIdentificador.Rows.Add(datos);
+                    tablaIdentificador.Rows.Add(datos); 
+                }
             }
 
         }

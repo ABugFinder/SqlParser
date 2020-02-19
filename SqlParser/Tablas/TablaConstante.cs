@@ -19,7 +19,10 @@ namespace SqlParser.Tablas
 
             for (int x = 0; x < constantes.Length; x++)
             {
-                this.palabras[x] = new Constante(constantes[x], nConstantes[x]);
+                if (constantes[x] != null && !constantes[x].Equals(""))
+                {
+                    this.palabras[x] = new Constante(constantes[x], nConstantes[x]);
+                }
             }
 
         }
