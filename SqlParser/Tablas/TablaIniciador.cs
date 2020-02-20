@@ -34,11 +34,7 @@ namespace SqlParser.Tablas
 
                 this.separarPalabras(texto);
 
-                for (int i = 0; i < lineas.Length; i++)
-                {
-                    Console.WriteLine(lineas[i]);
-                }
-
+               
                 //imprimir las palabras en consola eliminar despues
 
                 tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores,
@@ -61,13 +57,15 @@ namespace SqlParser.Tablas
             {
                 String[] lPalabras = Regex.Split(lineas[linea], @"(\s+|\,|\(|\)|\;|\=|>=|<=|<|>)"); //lineas[linea].Split(',','\'',' ','.',';');
 
+
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
                     lPalabras[numPalabra] = Regex.Replace(lPalabras[numPalabra], @"\s+", "");
 
+
                     if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "")
                     {
-
+                        
                         if (lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
                         { // Tipo 6 - Cosntantes
 
@@ -78,7 +76,7 @@ namespace SqlParser.Tablas
 
                                 if (constante[cons] != null && !constante[cons].Equals(""))
                                 {
-                                    if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w+"))
+                                    if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w"))
                                     {
                                         String aux = "$" + constante[cons];
 
@@ -109,13 +107,15 @@ namespace SqlParser.Tablas
 
 
                         }
-                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @"((\W|^)\d+(\W|$))"))
+                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @"((\W|^)[0-9]+(\W|$))"))
                         {
-                            Console.WriteLine("Entró");
-                            this.palabras[this.contPalabras] = palabras[numPalabra];
+
+                            Console.WriteLine("entro "+lPalabras[numPalabra]);
+                            
+                            this.palabras[this.contPalabras] = lPalabras[numPalabra];
                             this.lineas[this.contPalabras] = linea + 1;
 
-                            this.constantes[this.contConstantes] = palabras[numPalabra];
+                            this.constantes[this.contConstantes] = lPalabras[numPalabra];
                             this.nConstantes[this.contConstantes] = contPalabras + 1;
 
                             contPalabras++;

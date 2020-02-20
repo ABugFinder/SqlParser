@@ -23,11 +23,10 @@ namespace SqlParser.Tablas
 
             for (int x = 0; x < constantes.Length; x++)
             {
-                Console.WriteLine(constantes[x]);
 
                 if (constantes[x] != null && !constantes[x].Equals(""))
                 {
-                    Console.WriteLine("Entró");
+                    Console.WriteLine(constantes[x] + " Entró");
 
                     this.palabras[x] = new Constante(constantes[x], nConstantes[x]);
                 }
