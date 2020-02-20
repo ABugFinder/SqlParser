@@ -17,7 +17,5 @@ namespace SqlParser.Simbolos
 			this.valor = valor;
 		}
 
-
-
 	}
 }

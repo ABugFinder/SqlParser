@@ -32,17 +32,20 @@ namespace SqlParser.Simbolos
 
             //rRegex.isMatch(cadena,@"\d+");
 
-            if (palabra != null && Regex.IsMatch(palabra, @"\d+"))
+            if (palabra != null && Regex.IsMatch(palabra, @"((\W|^)\d+(\W|$))"))
             {
                 return 61;
             }
             else {
 
-                this.palabra = "Constante";
-
                 return 62;
             }
 
+        }
+
+        private void reiniciar()
+        {
+            svalor = 600;
         }
     }
 }

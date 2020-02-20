@@ -16,6 +16,10 @@ namespace SqlParser.Tablas
         {
             this.palabras = new Identificador[identificadores.Length];
 
+            //this.palabras[0].reiniciar();
+            Identificador.svalor = 401;
+
+                
             for(int x = 0; x < identificadores.Length; x++)
             {
                 if (identificadores[x] != null && !identificadores[x].Equals(""))

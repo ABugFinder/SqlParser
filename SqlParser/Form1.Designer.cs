@@ -57,7 +57,7 @@
             this.Texto.Location = new System.Drawing.Point(12, 12);
             this.Texto.Multiline = true;
             this.Texto.Name = "Texto";
-            this.Texto.Size = new System.Drawing.Size(444, 173);
+            this.Texto.Size = new System.Drawing.Size(539, 173);
             this.Texto.TabIndex = 1;
             // 
             // BtnIniciar
@@ -81,7 +81,7 @@
             this.CodigoToken});
             this.TablaLexica.Location = new System.Drawing.Point(12, 220);
             this.TablaLexica.Name = "TablaLexica";
-            this.TablaLexica.Size = new System.Drawing.Size(544, 173);
+            this.TablaLexica.Size = new System.Drawing.Size(539, 422);
             this.TablaLexica.TabIndex = 2;
             this.TablaLexica.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -118,9 +118,9 @@
             this.Constante,
             this.TipoConstante,
             this.ValorConstante});
-            this.TablaConstantes.Location = new System.Drawing.Point(462, 12);
+            this.TablaConstantes.Location = new System.Drawing.Point(621, 12);
             this.TablaConstantes.Name = "TablaConstantes";
-            this.TablaConstantes.Size = new System.Drawing.Size(444, 173);
+            this.TablaConstantes.Size = new System.Drawing.Size(441, 322);
             this.TablaConstantes.TabIndex = 3;
             this.TablaConstantes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
@@ -151,9 +151,9 @@
             this.Identificador,
             this.ValorIdentificador,
             this.LineaIdentificador});
-            this.TablaIdentificador.Location = new System.Drawing.Point(562, 220);
+            this.TablaIdentificador.Location = new System.Drawing.Point(671, 353);
             this.TablaIdentificador.Name = "TablaIdentificador";
-            this.TablaIdentificador.Size = new System.Drawing.Size(344, 173);
+            this.TablaIdentificador.Size = new System.Drawing.Size(343, 289);
             this.TablaIdentificador.TabIndex = 4;
             // 
             // Identificador
@@ -184,7 +184,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(919, 406);
+            this.ClientSize = new System.Drawing.Size(1084, 662);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.TablaIdentificador);
             this.Controls.Add(this.TablaConstantes);

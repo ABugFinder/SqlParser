@@ -42,6 +42,11 @@ namespace SqlParser
             }
             return false;
         }
- 
+
+        public void reiniciar()
+        {
+            svalor = 401;
+        }
+
     }
 }

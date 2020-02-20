@@ -25,6 +25,7 @@ namespace SqlParser.Tablas
         public string regexT6 = "(\\W|^)\\'\\w*\\'(\\W|$)";
 
         int contPalabras = 0;
+        int contConstantes = 0, contIdentificadores = 0;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
         public TablaIniciador(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
@@ -33,14 +34,15 @@ namespace SqlParser.Tablas
 
                 this.separarPalabras(texto);
 
-                //imprimir las palabras en consola eliminar despues
-                for (int x = 0; x < this.palabras.Length; x++)
+                for (int i = 0; i < lineas.Length; i++)
                 {
-                    Console.WriteLine(this.palabras[x]);
-
+                    Console.WriteLine(lineas[i]);
                 }
 
-                tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores, this.nConstantes, this.lIdentificadores);
+                //imprimir las palabras en consola eliminar despues
+
+                tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores,
+                                         this.nConstantes, this.lIdentificadores);
 
                 this.llenarTablasConstante(tablaConstante, tablas);
 
@@ -57,9 +59,7 @@ namespace SqlParser.Tablas
 
             for (int linea = 0; linea < lineas.Length; linea++)
             {
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\s+|\,|\(|\)|\;|\=)");//lineas[linea].Split(',','\'',' ','.',';');
-
-          
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\s+|\,|\(|\)|\;|\=|>=|<=|<|>)"); //lineas[linea].Split(',','\'',' ','.',';');
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
@@ -68,60 +68,75 @@ namespace SqlParser.Tablas
                     if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "")
                     {
 
-                       
-
                         if (lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
                         { // Tipo 6 - Cosntantes
 
-                            String[] constante = Regex.Split(lPalabras[numPalabra], @"(\')", RegexOptions.IgnorePatternWhitespace);
+                            String[] constante = Regex.Split(lPalabras[numPalabra], @"(\')");
 
                             for (int cons = 0; cons < constante.Length; cons++)
                             {
 
-                                if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w+"))
+                                if (constante[cons] != null && !constante[cons].Equals(""))
                                 {
+                                    if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w+"))
+                                    {
+                                        String aux = "$" + constante[cons];
 
-                                   
-                                    String aux = "$" + constante[cons];
+                                        this.palabras[this.contPalabras] = aux;
+                                        this.lineas[this.contPalabras] = linea + 1;
+                                        /*
+                                        this.constantes.Prepend(aux);
+                                        this.nConstantes.Prepend(contPalabras);
+                                        */
+                                        this.constantes[this.contConstantes] = aux;
+                                        this.nConstantes[this.contConstantes] = contPalabras;
 
-                                    this.palabras[this.contPalabras] = aux;
-                                    this.lineas[this.contPalabras] = linea;
+                                        contConstantes++;
 
-                                    this.constantes.Prepend(aux);
-                                    this.nConstantes.Prepend(contPalabras);
+                                        //Console.WriteLine(this.constantes[0]);
 
-                                    
+                                    }
+                                    else
+                                    {
+                                        this.palabras[this.contPalabras] = constante[cons];
+                                        this.lineas[this.contPalabras] = linea + 1;
+                                    }
 
+                                    this.contPalabras++; 
                                 }
-                                else
-                                {
-                                   
-                                    this.palabras[this.contPalabras] = constante[cons];
-                                    this.lineas[this.contPalabras] = linea;
-
-                                    
-
-                                }
-
-                                this.contPalabras++;
 
                             }
 
-                            
 
+                        }
+                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @"((\W|^)\d+(\W|$))"))
+                        {
+                            Console.WriteLine("Entró");
+                            this.palabras[this.contPalabras] = palabras[numPalabra];
+                            this.lineas[this.contPalabras] = linea + 1;
 
+                            this.constantes[this.contConstantes] = palabras[numPalabra];
+                            this.nConstantes[this.contConstantes] = contPalabras + 1;
+
+                            contPalabras++;
+                            contConstantes++;
+
+                            //Console.WriteLine(this.constantes[0]);
                         }
                         else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
                         { //tipo 4 - Identificador 
 
                             this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                            this.lineas[this.contPalabras] = linea;
-
+                            this.lineas[this.contPalabras] = linea + 1;
+                            /*
                             this.identificadores.Prepend(lPalabras[numPalabra]);
                             this.lIdentificadores.Prepend(linea);
+                            */
+                            this.identificadores[this.contIdentificadores] = lPalabras[numPalabra];
+                            this.lIdentificadores[this.contIdentificadores] = linea + 1;
 
+                            this.contIdentificadores++;
                             this.contPalabras++;
-
                         }
                         else
                         {
@@ -133,7 +148,6 @@ namespace SqlParser.Tablas
                         } 
                     }
 
-                    
                 }
             }
         }
@@ -145,18 +159,14 @@ namespace SqlParser.Tablas
 
                 if (tablas != null && tablas.tablaL != null && tablas.tablaL.palabras[x]!=null) {
 
-                    String[] datos =       {Convert.ToString(tablas.tablaL.palabras[x].numero),
+                    String[] datos = {Convert.ToString(tablas.tablaL.palabras[x].numero),
                                   Convert.ToString(tablas.tablaL.palabras[x].linea),
                                   tablas.tablaL.palabras[x].palabra,
                                   Convert.ToString(tablas.tablaL.palabras[x].tipo),
                                   Convert.ToString(tablas.tablaL.palabras[x].codigo)};
 
                     tablaLexica.Rows.Add(datos);
-
                 }
-
-
-
 
             }
         }
@@ -167,21 +177,25 @@ namespace SqlParser.Tablas
             for (int x = 0; x < tablas.tablaC.palabras.Length; x++)
             {
 
-
                 if (tablas != null && tablas.tablaC != null && tablas.tablaC.palabras[x] != null)
                 {
-                    String[] datos = {Convert.ToString(tablas.tablaC.palabras[x].numero),
-                                  tablas.tablaC.palabras[x].palabra,
-                                  Convert.ToString(tablas.tablaC.palabras[x].tipo),
-                                  Convert.ToString(tablas.tablaC.palabras[x].valor)};
+
+                    String aux = tablas.tablaC.palabras[x].palabra.TrimStart('$');
+
+                    //Console.WriteLine("Entró");
+                    String[] datos = {Convert.ToString(tablas.tablaC.palabras[x].numero), 
+                                      aux,
+                                      Convert.ToString(tablas.tablaC.palabras[x].tipo),
+                                      Convert.ToString(tablas.tablaC.palabras[x].valor)};
 
                     tablaConstante.Rows.Add(datos); 
                 }
             }
         }
+
         //'
         //*PALABRA ASDAD ASD ASD  FGDFGDFG
-       // '
+        // '
 
         private void llenarTablasIdentificador(DataGridView tablaIdentificador, CrearTablas tablas)
         {

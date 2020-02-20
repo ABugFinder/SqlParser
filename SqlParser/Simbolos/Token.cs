@@ -25,6 +25,11 @@ namespace SqlParser.Simbolos
             this.tipo = tipo;
             this.codigo = codigo;
         }
-        
+
+        public void reiniciar()
+        {
+            sNumero = 1;
+        }
+
     }
 }

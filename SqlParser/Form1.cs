@@ -39,12 +39,19 @@ namespace SqlParser
 
         private void BtnIniciar_Click(object sender, EventArgs e)
         {
+            labelError.Text = "Error:";
+
+            TablaLexica.Rows.Clear();
+            TablaConstantes.Rows.Clear();
+            TablaIdentificador.Rows.Clear();
 
             TablaIniciador llenado = new TablaIniciador(Texto.Text, TablaLexica, TablaConstantes, TablaIdentificador);
 
-
-            if (llenado.tablas != null && llenado.tablas.tablaL!=null &&  llenado.tablas.tablaL.error) {
+            if (llenado.tablas != null && llenado.tablas.tablaL!=null && llenado.tablas.tablaL.pError != null && llenado.tablas.tablaL.error && !llenado.tablas.tablaL.pError.Equals("")) {
                 labelError.Text += "Error en la linea: " + llenado.tablas.tablaL.lError + " Token = " + llenado.tablas.tablaL.pError;
+            } else
+            {
+                labelError.Text += "Sin error";
             }
         }
     }

@@ -18,7 +18,7 @@ namespace SqlParser.Tablas
         public TablaReservada tablaRes = new TablaReservada();
 
         public string regexT1 = "(\\W|^)SELECT(\\W|$)|(\\W|^)FROM(\\W|$)|(\\W|^)WHERE(\\W|$)|(\\W|^)IN(\\W|$)|(\\W|^)AND(\\W|$)|(\\W|^)OR(\\W|$)|(\\W|^)CREATE(\\W|$)|(\\W|^)TABLE(\\W|$)|(\\W|^)CHAR(\\W|$)|(\\W|^)NUMERIC(\\W|$)|(\\W|^)NOT(\\W|$)|(\\W|^)NULL(\\W|$)|(\\W|^)CONSTRAINT(\\W|$)|(\\W|^)KEY(\\W|$)|(\\W|^)PRIMARY(\\W|$)|(\\W|^)FOREIGIN(\\W|$)| (\\W|^)FOREIGN(\\W|$)|(\\W|^)REFERENCES(\\W|$)|(\\W|^)INSERT(\\W|$)|(\\W|^)INTO(\\W|$)|(\\W|^)VALUES(\\W|$)";
-        public string regexT6 = "(\\W|^)¤\\w+(\\W|$)";
+        public string regexT6 = "(\\W|^)\\$\\w+(\\W|$)|(\\W|^)\\d+(\\W|$)";
         public string regexT5 = "(\\W|^),(\\W|$)|(\\W|^)\\.(\\W|$)|(\\W|^)\\((\\W|$)|(\\W|^)\\)(\\W|$)|(\\W|^)'(\\W|$)|(\\W|^);(\\W|$)";
         public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
         public string regexT7 = "(\\W|^)\\+(\\W|$)|(\\W|^)-(\\W|$)|(\\W|^)\\*(\\W|$)|(\\W|^)/(\\W|$)";
@@ -34,6 +34,9 @@ namespace SqlParser.Tablas
         {
 
             this.palabras = new Token[palabras.Length];
+            //this.palabras[0].reiniciar();
+            Token.sNumero = 1;
+
 
             // Creando todos los TOKENS
             for (int x = 0; x < palabras.Length; x++)
@@ -48,7 +51,10 @@ namespace SqlParser.Tablas
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT6)) { // Tipo 6 - Cosntantes
 
                     Constante apuntador = this.darConstante(palabras[x], tablaC);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 6, apuntador.valor);
+                    if (apuntador != null)
+                    {
+                        this.palabras[x] = new Token(lineas[x], "Constante", 6, apuntador.valor); 
+                    }
 
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
 
@@ -57,14 +63,11 @@ namespace SqlParser.Tablas
 
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
 
-
                     Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
                     if (apuntador != null) {
 
                         this.palabras[x] = new Token(lineas[x], palabras[x], 4, apuntador.valor);
-
                     }
-
 
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT7)) { // Tipo 7 - Operadores
 
@@ -78,13 +81,15 @@ namespace SqlParser.Tablas
 
                 } else { // Error
 
-                    this.lError = lineas[x]+1;
+                    this.lError = lineas[x];
                     this.error = true;
                     this.pError = palabras[x];
 
                     x = palabras.Length;
                     
                 }
+
+
 
             }
 
@@ -95,8 +100,10 @@ namespace SqlParser.Tablas
         {                                                 
             for (int x = 0; x < tc.palabras.Length; x++)     
             {
-                if (tc.palabras[x].palabra.Equals(palabra))
+                if (tc != null && tc.palabras[x] != null && tc.palabras[x].palabra != null && tc.palabras[x].palabra.Equals(palabra))
                 {
+                    //String aux = palabras[x].TrimStart('$');
+
                     return tc.palabras[x];
                 }
             }

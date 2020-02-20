@@ -15,12 +15,20 @@ namespace SqlParser.Tablas
 
         public TablaConstante(String[] constantes, int[] nConstantes)
         {
+
             this.palabras = new Constante[constantes.Length];
+
+            //this.palabras[0].reiniciar();
+            Constante.svalor = 600;
 
             for (int x = 0; x < constantes.Length; x++)
             {
+                Console.WriteLine(constantes[x]);
+
                 if (constantes[x] != null && !constantes[x].Equals(""))
                 {
+                    Console.WriteLine("Entró");
+
                     this.palabras[x] = new Constante(constantes[x], nConstantes[x]);
                 }
             }
