@@ -17,10 +17,10 @@ namespace SqlParser
         static void Main()
         {
             /*
-                SELECT ANOMBRE, CALIFICACION, TURNO
-                FROM ALUMNOS, INSCRITOS, MATERIAS, CARRERAS
-                WHERE MNOMBRE='LENAUT2' AND TURNO = 'TM'
-                AND CNOMBRE='ISC' AND SEMESTRE='2017II' AND CALIFICACION >= 70
+             * SELECT ANOMBRE, CALIFICACION, TURNO
+             * FROM ALUMNOS, INSCRITOS, MATERIAS, CARRERAS
+             * WHERE MNOMBRE='LENAUT2' AND TURNO = 'TM'
+             * AND CNOMBRE='ISC' AND SEMESTRE = '2017II' AND CALIFICACION >= 70
              */
 
 

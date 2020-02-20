@@ -18,7 +18,7 @@ namespace SqlParser.Tablas
         public TablaReservada tablaRes = new TablaReservada();
 
         public string regexT1 = "(\\W|^)SELECT(\\W|$)|(\\W|^)FROM(\\W|$)|(\\W|^)WHERE(\\W|$)|(\\W|^)IN(\\W|$)|(\\W|^)AND(\\W|$)|(\\W|^)OR(\\W|$)|(\\W|^)CREATE(\\W|$)|(\\W|^)TABLE(\\W|$)|(\\W|^)CHAR(\\W|$)|(\\W|^)NUMERIC(\\W|$)|(\\W|^)NOT(\\W|$)|(\\W|^)NULL(\\W|$)|(\\W|^)CONSTRAINT(\\W|$)|(\\W|^)KEY(\\W|$)|(\\W|^)PRIMARY(\\W|$)|(\\W|^)FOREIGIN(\\W|$)| (\\W|^)FOREIGN(\\W|$)|(\\W|^)REFERENCES(\\W|$)|(\\W|^)INSERT(\\W|$)|(\\W|^)INTO(\\W|$)|(\\W|^)VALUES(\\W|$)";
-        public string regexT6 = "(\\W|^)'\\w+'(\\W|$)";
+        public string regexT6 = "(\\W|^)¤\\w+(\\W|$)";
         public string regexT5 = "(\\W|^),(\\W|$)|(\\W|^)\\.(\\W|$)|(\\W|^)\\((\\W|$)|(\\W|^)\\)(\\W|$)|(\\W|^)'(\\W|$)|(\\W|^);(\\W|$)";
         public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
         public string regexT7 = "(\\W|^)\\+(\\W|$)|(\\W|^)-(\\W|$)|(\\W|^)\\*(\\W|$)|(\\W|^)/(\\W|$)";
@@ -57,6 +57,7 @@ namespace SqlParser.Tablas
 
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
 
+
                     Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
                     if (apuntador != null) {
 
@@ -83,8 +84,6 @@ namespace SqlParser.Tablas
 
                     x = palabras.Length;
                     
-                    
-
                 }
 
             }

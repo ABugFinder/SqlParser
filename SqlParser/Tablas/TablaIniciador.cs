@@ -22,9 +22,9 @@ namespace SqlParser.Tablas
         int[] lineas = new int[250];
 
         public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
-        public string regexT6 = "(\\W|^)'\\w+'(\\W|$)";
+        public string regexT6 = "(\\W|^)\\'\\w*\\'(\\W|$)";
 
-        int contPalabras = 1;
+        int contPalabras = 0;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
         public TablaIniciador(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
@@ -34,9 +34,9 @@ namespace SqlParser.Tablas
                 this.separarPalabras(texto);
 
                 //imprimir las palabras en consola eliminar despues
-                for (int x = 0; x < this.constantes.Length; x++) {
-
-                    Console.WriteLine(this.constantes[x]);
+                for (int x = 0; x < this.palabras.Length; x++)
+                {
+                    Console.WriteLine(this.palabras[x]);
 
                 }
 
@@ -53,47 +53,84 @@ namespace SqlParser.Tablas
 
         public void separarPalabras(String texto) {
 
-            String[] lineas = texto.Split('\n');
+            String[] lineas = Regex.Split(texto, @"\n");
 
             for (int linea = 0; linea < lineas.Length; linea++)
             {
-                String[] lPalabras = Regex.Split(lineas[linea], @"()");//lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\s+|\,|\(|\)|\;|\=)");//lineas[linea].Split(',','\'',' ','.',';');
+
+          
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
-                    if (lPalabras[numPalabra] != null  && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
-                    { // Tipo 6 - Cosntantes
+                    lPalabras[numPalabra] = Regex.Replace(lPalabras[numPalabra], @"\s+", "");
 
-                        Console.WriteLine("entro");
+                    if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "")
+                    {
 
-                        this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea+1;
+                       
 
-                        this.constantes.Prepend(lPalabras[numPalabra]);
-                        this.nConstantes.Prepend(contPalabras);
+                        if (lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
+                        { // Tipo 6 - Cosntantes
 
-                        contPalabras++;
+                            String[] constante = Regex.Split(lPalabras[numPalabra], @"(\')", RegexOptions.IgnorePatternWhitespace);
+
+                            for (int cons = 0; cons < constante.Length; cons++)
+                            {
+
+                                if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w+"))
+                                {
+
+                                   
+                                    String aux = "$" + constante[cons];
+
+                                    this.palabras[this.contPalabras] = aux;
+                                    this.lineas[this.contPalabras] = linea;
+
+                                    this.constantes.Prepend(aux);
+                                    this.nConstantes.Prepend(contPalabras);
+
+                                    
+
+                                }
+                                else
+                                {
+                                   
+                                    this.palabras[this.contPalabras] = constante[cons];
+                                    this.lineas[this.contPalabras] = linea;
+
+                                    
+
+                                }
+
+                                this.contPalabras++;
+
+                            }
+
+                            
 
 
-                    }
-                    else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
-                    { //tipo 4 - Identificador 
+                        }
+                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
+                        { //tipo 4 - Identificador 
 
-                        this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea+1;
+                            this.palabras[this.contPalabras] = lPalabras[numPalabra];
+                            this.lineas[this.contPalabras] = linea;
 
-                        this.identificadores.Prepend(lPalabras[numPalabra]);
-                        this.lIdentificadores.Prepend(linea+1);
+                            this.identificadores.Prepend(lPalabras[numPalabra]);
+                            this.lIdentificadores.Prepend(linea);
 
-                        contPalabras++;
+                            this.contPalabras++;
 
-                    }
-                    else {
+                        }
+                        else
+                        {
 
-                        this.palabras[this.contPalabras] = lPalabras[numPalabra];
-                        this.lineas[this.contPalabras] = linea+1;
+                            this.palabras[this.contPalabras] = lPalabras[numPalabra];
+                            this.lineas[this.contPalabras] = linea + 1;
 
-                        contPalabras++;
+                            this.contPalabras++;
+                        } 
                     }
 
                     
