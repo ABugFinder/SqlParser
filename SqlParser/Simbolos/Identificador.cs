@@ -14,6 +14,7 @@ namespace SqlParser
         public int valor;
         public String linea;
         public int[] lineas = new int[10];
+        public int contLinea;
 
 
         public Identificador(String palabra, String linea) {
@@ -22,7 +23,9 @@ namespace SqlParser
             this.valor = svalor;
             svalor++;
             this.linea = linea;
-            this.lineas.Prepend(Convert.ToInt32(linea));
+            this.contLinea = 0;
+            this.lineas[contLinea] = Convert.ToInt32(linea);
+           
         }
 
         public void concatenarLinea(int linea)
@@ -40,6 +43,7 @@ namespace SqlParser
                     return true;
                 }
             }
+            lineas[contLinea] = linea;
             return false;
         }
 

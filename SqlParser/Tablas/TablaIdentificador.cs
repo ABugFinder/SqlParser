@@ -64,7 +64,7 @@ namespace SqlParser.Tablas
         {
             for (int x = 0; x < palabras.Length; x++)
             {
-                if (palabras[x].palabra.Equals(palabra))
+                if (palabras[x]  != null && palabras[x].palabra != null && palabras[x].palabra.Equals(palabra))
                 {
                     return palabras[x];
                 }
