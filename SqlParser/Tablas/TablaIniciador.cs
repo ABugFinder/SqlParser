@@ -22,7 +22,7 @@ namespace SqlParser.Tablas
         int[] lineas = new int[250];
 
         public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
-        public string regexT6 = "(\\W|^)\\'\\w*\\'(\\W|$)";
+        public string regexT6 = "((\\W|^)\\'\\w*\\'(\\W|$))";
 
         int contPalabras = 0;
         int contConstantes = 0, contIdentificadores = 0;
@@ -34,8 +34,14 @@ namespace SqlParser.Tablas
 
                 this.separarPalabras(texto);
 
-               
+
                 //imprimir las palabras en consola eliminar despues
+                for (int x = 0; x < constantes.Length; x++) {
+                    if (constantes[x] != null)
+                    {
+                        Console.WriteLine(constantes[x]);
+                    }
+                }
 
                 tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores,
                                          this.nConstantes, this.lIdentificadores);
@@ -55,15 +61,16 @@ namespace SqlParser.Tablas
 
             for (int linea = 0; linea < lineas.Length; linea++)
             {
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\s+|\,|\(|\)|\;|\=|>=|<=|<|>)"); //lineas[linea].Split(',','\'',' ','.',';');
+
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\,|\(|\)|\;|\=|<|>|>=|<=|\.)|\s+"); //lineas[linea].Split(',','\'',' ','.',';');
 
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
-                    lPalabras[numPalabra] = Regex.Replace(lPalabras[numPalabra], @"\s+", "");
+                    //lPalabras[numPalabra] = Regex.Replace(lPalabras[numPalabra], @"\s+", "");
 
-
-                    if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "")
+                    Console.WriteLine(lPalabras[numPalabra]);
+                    if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "" && lPalabras[numPalabra] != " ")
                     {
                         
                         if (lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT6))
@@ -78,6 +85,7 @@ namespace SqlParser.Tablas
                                 {
                                     if (constante[cons] != null && Regex.IsMatch(constante[cons], @"\w"))
                                     {
+                                        
                                         String aux = "$" + constante[cons];
 
                                         this.palabras[this.contPalabras] = aux;
@@ -132,9 +140,10 @@ namespace SqlParser.Tablas
                             this.identificadores.Prepend(lPalabras[numPalabra]);
                             this.lIdentificadores.Prepend(linea);
                             */
-                            this.identificadores[this.contIdentificadores] = lPalabras[numPalabra];
-                            this.lIdentificadores[this.contIdentificadores] = linea + 1;
 
+                            this.identificadores[this.contIdentificadores] = lPalabras[numPalabra];               
+                            this.lIdentificadores[this.contIdentificadores] = linea + 1; 
+ 
                             this.contIdentificadores++;
                             this.contPalabras++;
                         }

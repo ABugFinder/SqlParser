@@ -26,8 +26,7 @@ namespace SqlParser.Tablas
 
                 if (constantes[x] != null && !constantes[x].Equals(""))
                 {
-                    Console.WriteLine(constantes[x] + " Entró");
-
+                   
                     this.palabras[x] = new Constante(constantes[x], nConstantes[x]);
                 }
             }

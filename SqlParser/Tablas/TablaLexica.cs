@@ -59,7 +59,10 @@ namespace SqlParser.Tablas
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
 
                     Delimitador apuntador = this.darDelimitador(palabras[x]);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
+                    if (apuntador != null)
+                    {
+                        this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
+                    }
 
                 } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
 
