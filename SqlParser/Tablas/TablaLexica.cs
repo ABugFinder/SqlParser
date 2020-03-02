@@ -43,53 +43,73 @@ namespace SqlParser.Tablas
             {
 
                 //Regex.IsMatch(palabra, @"\d+")
-                if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT1)) { // Tipo 1 - Reservadas
+                if (palabras[x] != null && !Regex.IsMatch(palabras[x], @"((\W|^)\s+(\W|$))"))
+                {
+                    if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT1))
+                    { // Tipo 1 - Reservadas
 
-                    Reservada apuntador = this.darReservada(palabras[x]);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 1, apuntador.valor);
+                        Reservada apuntador = this.darReservada(palabras[x]);
+                        if (apuntador != null)
+                        {
+                            this.palabras[x] = new Token(lineas[x], palabras[x], 1, apuntador.valor);
+                        }
 
-                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT6)) { // Tipo 6 - Cosntantes
-
-                    Constante apuntador = this.darConstante(palabras[x], tablaC);
-                    if (apuntador != null)
-                    {
-                        this.palabras[x] = new Token(lineas[x], "Constante", 6, apuntador.valor); 
                     }
+                    else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT6))
+                    { // Tipo 6 - Cosntantes
 
-                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], regexT5)) { // Tipo 5 - Delimitadores
+                        Constante apuntador = this.darConstante(palabras[x], tablaC);
+                        if (apuntador != null)
+                        {
+                            this.palabras[x] = new Token(lineas[x], "Constante", 6, apuntador.valor);
+                        }
 
-                    Delimitador apuntador = this.darDelimitador(palabras[x]);
-                    if (apuntador != null)
-                    {
-                        this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
                     }
+                    else if (palabras[x] != null && Regex.IsMatch(palabras[x], regexT5))
+                    { // Tipo 5 - Delimitadores
 
-                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4)) { // Tipo 4 - Identificador
+                        Delimitador apuntador = this.darDelimitador(palabras[x]);
+                        if (apuntador != null)
+                        {
+                            this.palabras[x] = new Token(lineas[x], palabras[x], 5, apuntador.valor);
+                        }
 
-                    Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
-                    if (apuntador != null) {
-
-                        this.palabras[x] = new Token(lineas[x], palabras[x], 4, apuntador.valor);
                     }
+                    else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT4))
+                    { // Tipo 4 - Identificador
 
-                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT7)) { // Tipo 7 - Operadores
+                        Identificador apuntador = this.darIdentificador(palabras[x], tablaI);
+                        if (apuntador != null)
+                        {
 
-                    Operador apuntador = this.darOperador(palabras[x]);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 7, apuntador.valor);
+                            this.palabras[x] = new Token(lineas[x], palabras[x], 4, apuntador.valor);
+                        }
 
-                } else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT8)) { // Tipo 8 - Relacionales
+                    }
+                    else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT7))
+                    { // Tipo 7 - Operadores
 
-                    Relacional apuntador = this.darRelacional(palabras[x]);
-                    this.palabras[x] = new Token(lineas[x], palabras[x], 8, apuntador.valor);
+                        Operador apuntador = this.darOperador(palabras[x]);
+                        this.palabras[x] = new Token(lineas[x], palabras[x], 7, apuntador.valor);
 
-                } else { // Error
+                    }
+                    else if (palabras[x] != null && Regex.IsMatch(palabras[x], @regexT8))
+                    { // Tipo 8 - Relacionales
 
-                    this.lError = lineas[x];
-                    this.error = true;
-                    this.pError = palabras[x];
+                        Relacional apuntador = this.darRelacional(palabras[x]);
+                        this.palabras[x] = new Token(lineas[x], palabras[x], 8, apuntador.valor);
 
-                    x = palabras.Length;
-                    
+                    }
+                    else
+                    { // Error
+
+                        this.lError = lineas[x];
+                        this.error = true;
+                        this.pError = palabras[x];
+
+                        x = palabras.Length;
+
+                    } 
                 }
 
 
