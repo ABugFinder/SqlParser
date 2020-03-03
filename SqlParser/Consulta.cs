@@ -6,9 +6,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SqlParser.Tablas
+using SqlParser.Simbolos;
+using SqlParser.Tablas;
+
+namespace SqlParser
 {
-    class TablaIniciador
+    class Consulta
     {
         public CrearTablas tablas;
 
@@ -28,7 +31,7 @@ namespace SqlParser.Tablas
         int contConstantes = 0, contIdentificadores = 0;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
-        public TablaIniciador(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
+        public Consulta(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
             if (!texto.Equals("")) {
 
 

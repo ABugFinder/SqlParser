@@ -45,14 +45,19 @@ namespace SqlParser
             TablaConstantes.Rows.Clear();
             TablaIdentificador.Rows.Clear();
 
-            TablaIniciador llenado = new TablaIniciador(Texto.Text, TablaLexica, TablaConstantes, TablaIdentificador);
+            Consulta llenado = new Consulta(Texto.Text, TablaLexica, TablaConstantes, TablaIdentificador);
 
             if (llenado.tablas != null && llenado.tablas.tablaL!=null && llenado.tablas.tablaL.pError != null && llenado.tablas.tablaL.error && !llenado.tablas.tablaL.pError.Equals("")) {
-                labelError.Text += "Error en la linea: " + llenado.tablas.tablaL.lError + " Token = " + llenado.tablas.tablaL.pError;
+                labelError.Text += " Tipo 1 - Código 101: Símbolo desconocido.";
             } else
             {
                 labelError.Text += "Sin error";
             }
+        }
+
+        private void Texto_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

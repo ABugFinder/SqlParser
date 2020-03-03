@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DML\AnalizadorSintactico.cs" />
     <Compile Include="Simbolos\Constante.cs" />
     <Compile Include="Simbolos\Delimitador.cs" />
     <Compile Include="Simbolos\Identificador.cs" />
@@ -59,15 +60,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Nodo.cs" />
-    <Compile Include="Pila.cs" />
+    <Compile Include="DML\Nodo.cs" />
+    <Compile Include="DML\Pila.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tablas\CrearTablas.cs" />
     <Compile Include="Tablas\TablaConstante.cs" />
     <Compile Include="Tablas\TablaDelimitador.cs" />
     <Compile Include="Tablas\TablaIdentificador.cs" />
-    <Compile Include="Tablas\TablaIniciador.cs" />
+    <Compile Include="Consulta.cs" />
     <Compile Include="Tablas\TablaLexica.cs" />
     <Compile Include="Tablas\TablaOperador.cs" />
     <Compile Include="Tablas\TablaRelacional.cs" />

@@ -59,6 +59,7 @@
             this.Texto.Name = "Texto";
             this.Texto.Size = new System.Drawing.Size(539, 173);
             this.Texto.TabIndex = 1;
+            this.Texto.TextChanged += new System.EventHandler(this.Texto_TextChanged);
             // 
             // BtnIniciar
             // 
