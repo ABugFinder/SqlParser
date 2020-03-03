@@ -68,5 +68,17 @@ namespace PrimerTest
 			}
 			return "vacio";
 		}
+
+		/*
+		public void pushPalabras(String linea, Pila pila)
+		{
+			String[] aux = linea.split(" ");
+
+			for (int x = aux.length - 1; x >= 0; x--)
+			{
+				pila.push(aux[x]);
+			}
+		}
+		*/
 	}
 }
