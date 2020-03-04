@@ -148,7 +148,7 @@ namespace SqlParser.DML
             return false;
         }
 
-        public String posicionador(String x, string k)
+        public String posicionador(String x, String k)
         {
             //Declarando iteradores para la matriz
             int i = 0, j = 0;
@@ -163,7 +163,7 @@ namespace SqlParser.DML
 
             for (int c = 0; c < dml.Length; c++)
             {
-                if (dml[0, c].Equals(x))
+                if (dml[0, c].Equals(k))
                 {
                     j = c;
                 }
