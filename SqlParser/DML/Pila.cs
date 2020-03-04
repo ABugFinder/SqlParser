@@ -72,9 +72,9 @@ namespace SqlParser.DML
 		/*
 		public void pushPalabras(String linea, Pila pila)
 		{
-			String[] aux = linea.split(" ");
+			String[] aux = linea.Split(' ');
 
-			for (int x = aux.length - 1; x >= 0; x--)
+			for (int x = aux.Length - 1; x >= 0; x--)
 			{
 				pila.push(aux[x]);
 			}

@@ -118,6 +118,11 @@ namespace SqlParser.Tablas
 
         }
 
+        public void insertarUltima(String palabra)
+        {
+            
+        }
+
 
         private Constante darConstante(String palabra, TablaConstante tc)
         {                                                 

@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SqlParser.Tablas;
+
 namespace SqlParser.DML
 {
     class AnalizadorSintactico
     {
+        int apunt;
+        String[] terminales = {"4", "8", "10", "11", "12", "13", "14", "15", "50", "51", "53", "54", "61", "62", "72", "199"};
+
         //int[] a = new int[] { 1, 2, 3 };
         public String[,] dml = new String[,] {
             { null, "300", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316", "317", "318", "319"},
@@ -29,10 +34,130 @@ namespace SqlParser.DML
             { "199", null, null, null, "99", null, "99", null, "99", null, "99", "99", null, "99", null, null, null, null, null, null, null}
         };
 
+        public Pila pila;
 
-        public AnalizadorSintactico()
+        public AnalizadorSintactico(TablaLexica tablaLexica)
+        {
+            String x, k;
+
+            this.pila = new Pila();
+            this.apunt = 0;
+
+            pila.push("$");
+            pila.push("300");
+
+            do {
+
+                x = pila.pop();
+                if (apunt > tablaLexica.palabras.Length)
+                {
+                    k = "199";
+
+                } else {
+
+                    if (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8)
+                    {
+                        k = Convert.ToString(tablaLexica.palabras[apunt].tipo);
+
+                    } else
+                    {
+
+                        k = Convert.ToString(tablaLexica.palabras[apunt].codigo);
+
+                    }
+                }
+
+                if (isTerminal(x) || x.Equals("199"))
+                {
+                    if (x.Equals(k))
+                    {
+                        apunt++;
+                    }
+                    else
+                    {
+                        //Error
+                    }
+
+                } else
+                {
+                    if ()
+                    {
+
+                    }
+                }
+
+            } while(true);
+
+        }
+
+        /*
+         *  
+         *  insertarPila('$');
+         *  insertarPila(300);
+         *  insertar '$' al final de Tabla Léxica
+         *  APUN = Apuntador al primer Token de Tabla Léxica
+         *  
+         *  do{
+         *      
+         *      X = extraerPila();
+         *      K = Tabla Léxica[APUN];
+         *      if(X = TERMINAL || X = '$' -> 199){
+         *          if(X = K){
+         *              Avanzar APUN;
+         *          } else {
+         *              ERROR();
+         *          }
+         *      } else {
+         *          if(M[X,K] = PRODUCCION){
+         *              if(PRODUCCION != 'λ' -> 99){
+         *                  insertarPila(PRODUCCION); -> forma inversa
+         *              } else {
+         *                  ERROR();
+         *              }
+         *          }
+         *      }
+         *      
+         *  }while(X != '$');
+         *  
+         */
+
+        public void pushInversa(String linea, Pila pila)
+        {
+            String[] aux = linea.Split(' ');
+
+            for (int x = aux.Length - 1; x >= 0; x--)
+            {
+                pila.push(aux[x]);
+            }
+        }
+
+        public bool isTerminal(String codigo)
         {
 
+            for (int x = 0; x < terminales.Length; x++)
+            {
+                if (terminales[x].Equals(codigo))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public String posicionador(String x, string k)
+        {
+            //Declarando iteradores para la matriz
+            int i, j;
+
+            for (int c = 0; c < dml.Length; c++)
+            {
+                if (dml[c,0].Equals(x))
+                {
+
+                }
+            }
+
+            return null;
         }
 
     }
