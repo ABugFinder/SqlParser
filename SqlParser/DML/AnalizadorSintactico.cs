@@ -12,6 +12,7 @@ namespace SqlParser.DML
     {
         int apunt;
         String[] terminales = {"4", "8", "10", "11", "12", "13", "14", "15", "50", "51", "53", "54", "61", "62", "72", "199"};
+        public Pila pila;
 
         //int[] a = new int[] { 1, 2, 3 };
         public String[,] dml = new String[,] {
@@ -34,8 +35,6 @@ namespace SqlParser.DML
             { "199", null, null, null, "99", null, "99", null, "99", null, "99", "99", null, "99", null, null, null, null, null, null, null}
         };
 
-        public Pila pila;
-
         public AnalizadorSintactico(TablaLexica tablaLexica)
         {
             String x, k;
@@ -49,7 +48,7 @@ namespace SqlParser.DML
             do {
 
                 x = pila.pop();
-                if (apunt > tablaLexica.palabras.Length)
+                if (apunt >= tablaLexica.palabras.Length)
                 {
                     k = "199";
 
@@ -58,12 +57,10 @@ namespace SqlParser.DML
                     if (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8)
                     {
                         k = Convert.ToString(tablaLexica.palabras[apunt].tipo);
-
-                    } else
+                    } 
+                    else
                     {
-
                         k = Convert.ToString(tablaLexica.palabras[apunt].codigo);
-
                     }
                 }
 
@@ -80,13 +77,20 @@ namespace SqlParser.DML
 
                 } else
                 {
-                    if ()
+                    if (posicionador(x, k) != null)
                     {
-
+                        if (!posicionador(x, k).Equals("199"))
+                        {
+                            pushInversa(posicionador(x, k));
+                        }
+                    }
+                    else 
+                    {
+                        //Error
                     }
                 }
 
-            } while(true);
+            } while(apunt <= tablaLexica.palabras.Length);
 
         }
 
@@ -111,17 +115,17 @@ namespace SqlParser.DML
          *          if(M[X,K] = PRODUCCION){
          *              if(PRODUCCION != 'λ' -> 99){
          *                  insertarPila(PRODUCCION); -> forma inversa
-         *              } else {
-         *                  ERROR();
          *              }
+         *          } else {
+         *              ERROR();
          *          }
          *      }
          *      
-         *  }while(X != '$');
+         *  }while(X == '$');
          *  
          */
 
-        public void pushInversa(String linea, Pila pila)
+        public void pushInversa(String linea)
         {
             String[] aux = linea.Split(' ');
 
@@ -147,17 +151,25 @@ namespace SqlParser.DML
         public String posicionador(String x, string k)
         {
             //Declarando iteradores para la matriz
-            int i, j;
+            int i = 0, j = 0;
 
             for (int c = 0; c < dml.Length; c++)
             {
                 if (dml[c,0].Equals(x))
                 {
-
+                    i = c;
                 }
             }
 
-            return null;
+            for (int c = 0; c < dml.Length; c++)
+            {
+                if (dml[0, c].Equals(x))
+                {
+                    j = c;
+                }
+            }
+
+            return dml[i, j];
         }
 
     }

@@ -26,12 +26,6 @@ namespace SqlParser.Simbolos
             this.codigo = codigo;
         }
 
-        public Token(String palabra, int tipo)
-        {
-            this.palabra = palabra;
-            this.tipo = tipo;
-        }
-
         public void reiniciar()
         {
             sNumero = 1;
