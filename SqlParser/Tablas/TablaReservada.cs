@@ -15,7 +15,7 @@ namespace SqlParser.Tablas
 
         public TablaReservada()
         {
-            palabras = new Reservada[20];
+            palabras = new Reservada[29];
             // public String lexema;
             // public String simbolo;
             // public int valor;
@@ -40,6 +40,15 @@ namespace SqlParser.Tablas
             palabras[17] = new Reservada("INSERT", "m", 27);
             palabras[18] = new Reservada("INTO", "q", 28);
             palabras[19] = new Reservada("VALUES", "v", 29);
+            palabras[20] = new Reservada("GO", "a", 30);
+            palabras[21] = new Reservada("PROCEDURE", "go", 31);
+            palabras[22] = new Reservada("AS", "as", 32);
+            palabras[23] = new Reservada("IF", "if", 33);
+            palabras[24] = new Reservada("EXISTS", "ex", 34);
+            palabras[25] = new Reservada("BEGIN", "be", 35);
+            palabras[26] = new Reservada("PRINT", "pr", 36);
+            palabras[27] = new Reservada("END", "en", 37);
+            palabras[28] = new Reservada("ELSE", "el", 38);
         }
     }
 }

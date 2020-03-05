@@ -21,7 +21,8 @@ namespace SqlParser.Tablas
         String[] palabras = new String[250];
         int[] lineas = new int[250];
 
-        public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
+        public string regexT1 = "(\\W|^)SELECT(\\W|$)|(\\W|^)FROM(\\W|$)|(\\W|^)WHERE(\\W|$)|(\\W|^)IN(\\W|$)|(\\W|^)AND(\\W|$)|(\\W|^)OR(\\W|$)|(\\W|^)CREATE(\\W|$)|(\\W|^)TABLE(\\W|$)|(\\W|^)CHAR(\\W|$)|(\\W|^)NUMERIC(\\W|$)|(\\W|^)NOT(\\W|$)|(\\W|^)NULL(\\W|$)|(\\W|^)CONSTRAINT(\\W|$)|(\\W|^)KEY(\\W|$)|(\\W|^)PRIMARY(\\W|$)|(\\W|^)FOREIGIN(\\W|$)| (\\W|^)FOREIGN(\\W|$)|(\\W|^)REFERENCES(\\W|$)|(\\W|^)INSERT(\\W|$)|(\\W|^)INTO(\\W|$)|(\\W|^)VALUES(\\W|$)|(\\W|^)GO(\\W|$)|(\\W|^)PROCEDURE(\\W|$)|(\\W|^)AS(\\W|$)|(\\W|^)IF(\\W|$)|(\\W|^)EXISTS(\\W|$)|(\\W|^)BEGIN(\\W|$)|(\\W|^)PRINT(\\W|$)|(\\W|^)END(\\W|$)|(\\W|^)ELSE(\\W|$)";
+        public string regexT4 = "(\\W|^)\\@?[a-zA-Z_]+\\#?(\\W|$)";
         public string regexT6 = "((\\W|^)\\'[\\w\\s]*\\'(\\W|$))";
 
         int contPalabras = 0;
@@ -62,7 +63,7 @@ namespace SqlParser.Tablas
             for (int linea = 0; linea < lineas.Length; linea++)
             {
 
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\w+)"); //lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\w+)"); //lineas[linea].Split(',','\'',' ','.',';');
 
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
@@ -131,7 +132,7 @@ namespace SqlParser.Tablas
 
                             //Console.WriteLine(this.constantes[0]);
                         }
-                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
+                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4) && !Regex.IsMatch(lPalabras[numPalabra], @regexT1))
                         { //tipo 4 - Identificador 
 
                             this.palabras[this.contPalabras] = lPalabras[numPalabra];

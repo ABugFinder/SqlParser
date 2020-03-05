@@ -22,6 +22,28 @@ namespace SqlParser
                WHERE MNOMBRE = 'LENAUT2' AND TURNO = 'TM'
                AND CNOMBRE='ISC' AND SEMESTRE = '2017II' AND CALIFICACION >= 70
              */
+            
+            /*
+                GO
+                CREATE PROCEDURE VALIDA_REGISTRO
+                (
+                    @M#        VARCHAR(2),
+                     @NOMBRE    VARCHAR(6)
+                )
+                AS
+                IF EXISTS (SELECT *
+                           FROM MATERIAS
+                           WHERE @M#=M# AND @NOMBRE=MNOMBRE)
+                BEGIN
+                    PRINT ('Materia repetida')
+                END
+                ELSE
+                BEGIN
+                    INSERT INTO MATERIAS (M#, MNOMBRE)
+                    VALUES (@M#, @NOMBRE)
+                    PRINT ('Materia agregada')
+                END
+             */
 
 
             Application.EnableVisualStyles();
