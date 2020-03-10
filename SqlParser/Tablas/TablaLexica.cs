@@ -61,7 +61,7 @@ namespace SqlParser.Tablas
                         Constante apuntador = this.darConstante(palabras[x], tablaC);
                         if (apuntador != null)
                         {
-                            this.palabras[x] = new Token(lineas[x], "Constante", 6, apuntador.valor);
+                            this.palabras[x] = new Token(lineas[x], "Constante", 6, apuntador.tipo);
                         }
 
                     }

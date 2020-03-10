@@ -28,17 +28,21 @@ namespace SqlParser.Simbolos
 
         }
 
+
         public int tipoConstante(String palabra) {
 
             //rRegex.isMatch(cadena,@"\d+");
 
-            if (palabra != null && Regex.IsMatch(palabra, @"((\W|^)\d+(\W|$))"))
+        
+
+            Console.WriteLine("aqui puta: "+ palabra);
+            if (Regex.IsMatch(palabra, @"((\W|^)\$\w+(\W|$))"))
             {
-                return 61;
+                return 62;
             }
             else {
 
-                return 62;
+                return 61;
             }
 
         }

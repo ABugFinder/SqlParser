@@ -60,7 +60,7 @@ namespace SqlParser.DML
 
             do {
 
-                if (tablaLexica != null && tablaLexica.palabras != null && apunt < tablaLexica.palabras.Length && tablaLexica.palabras[apunt] != null)
+                if (tablaLexica != null && tablaLexica.palabras != null && ((apunt < tablaLexica.palabras.Length && tablaLexica.palabras[apunt] != null) || apunt == tablaLexica.palabras.Length))
                 {
                     Console.WriteLine("entro al if grandote");
                     x = pila.pop();
@@ -73,7 +73,7 @@ namespace SqlParser.DML
                     else
                     {
 
-                        if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null && (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8))
+                        if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null && (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8 || tablaLexica.palabras[apunt].tipo == 61 || tablaLexica.palabras[apunt].tipo == 62))
                         {
                             Console.WriteLine("entro en tipo 4 u 8 an palabra" + tablaLexica.palabras[apunt].palabra);
                             k = Convert.ToString(tablaLexica.palabras[apunt].tipo);
