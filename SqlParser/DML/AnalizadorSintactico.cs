@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using SqlParser.Tablas;
@@ -13,6 +14,10 @@ namespace SqlParser.DML
         int apunt;
         String[] terminales = {"4", "8", "10", "11", "12", "13", "14", "15", "50", "51", "53", "54", "61", "62", "72", "199"};
         public Pila pila;
+
+        public bool error = false;
+
+        public String pError = "";
 
         //int[] a = new int[] { 1, 2, 3 };
         public String[,] dml = new String[,] {
@@ -37,7 +42,15 @@ namespace SqlParser.DML
 
         public AnalizadorSintactico(TablaLexica tablaLexica)
         {
-            String x, k;
+
+            for (int c = 0; c < tablaLexica.palabras.Length; c++) {
+                if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[c] != null)
+                {
+                    Console.WriteLine(tablaLexica.palabras[c].palabra); 
+                }
+            }
+            
+            String x, k = "199";
 
             this.pila = new Pila();
             this.apunt = 0;
@@ -47,50 +60,87 @@ namespace SqlParser.DML
 
             do {
 
-                x = pila.pop();
-                if (apunt >= tablaLexica.palabras.Length)
+                if (tablaLexica != null && tablaLexica.palabras != null && apunt < tablaLexica.palabras.Length && tablaLexica.palabras[apunt] != null)
                 {
-                    k = "199";
-
-                } else {
-
-                    if (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8)
+                    Console.WriteLine("entro al if grandote");
+                    x = pila.pop();
+                    Console.WriteLine("pop en " + x);
+                    if (apunt >= tablaLexica.palabras.Length)
                     {
-                        k = Convert.ToString(tablaLexica.palabras[apunt].tipo);
-                    } 
-                    else
-                    {
-                        k = Convert.ToString(tablaLexica.palabras[apunt].codigo);
-                    }
-                }
+                        k = "199";
 
-                if (isTerminal(x) || x.Equals("199"))
-                {
-                    if (x.Equals(k))
-                    {
-                        apunt++;
                     }
                     else
                     {
-                        //Error
-                    }
 
-                } else
-                {
-                    if (posicionador(x, k) != null)
-                    {
-                        if (!posicionador(x, k).Equals("199"))
+                        if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null && (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8))
                         {
-                            pushInversa(posicionador(x, k));
+                            Console.WriteLine("entro en tipo 4 u 8 an palabra" + tablaLexica.palabras[apunt].palabra);
+                            k = Convert.ToString(tablaLexica.palabras[apunt].tipo);
+                        }
+                        else
+                        {
+                            Console.WriteLine("lexica es '" + tablaLexica.palabras[apunt] + "' an pos " + apunt);
+                            if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null)
+                            {
+
+                                Console.WriteLine("entro en el ultimo if");
+                                k = Convert.ToString(tablaLexica.palabras[apunt].codigo);
+                                Console.WriteLine("la palabra es: " + tablaLexica.palabras[apunt].palabra);
+                            }
+
                         }
                     }
-                    else 
+
+                    Console.WriteLine("k es " + k);
+
+                    if (isTerminal(x) || x.Equals("199"))
                     {
-                        //Error
+                        if (x.Equals(k))
+                        {
+                            apunt++;
+                            Console.WriteLine(x + "es terminal");
+                        }
+                        else
+                        {
+                            this.error = false;
+                            if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null)
+                            {
+                                this.pError = tablaLexica.palabras[apunt].palabra;
+                                Console.WriteLine("error1 " + tablaLexica.palabras[apunt].palabra);
+                            }
+                            apunt = tablaLexica.palabras.Length + 2;
+                        }
+
+                    }
+                    else
+                    {
+                        if (posicionador(x, k) != null)
+                        {
+                            if (!Regex.IsMatch(posicionador(x, k), @"(\\W|^)99(\\W|$)"))
+                            {
+                                pushInversa(posicionador(x, k));
+                                Console.WriteLine("objeto de tabla: " + posicionador(x, k));
+                            }
+                        }
+                        else
+                        {
+                            this.error = true;
+                            if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null)
+                            {
+                                this.pError = tablaLexica.palabras[apunt].palabra;
+                                Console.WriteLine("error2 " + tablaLexica.palabras[apunt].palabra);
+                            }
+
+                            apunt = tablaLexica.palabras.Length + 2;
+                        }
                     }
                 }
+                else {
+                    apunt++;
+                }
 
-            } while(apunt <= tablaLexica.palabras.Length);
+            } while(apunt < tablaLexica.palabras.Length + 1);
 
         }
 
@@ -153,21 +203,25 @@ namespace SqlParser.DML
             //Declarando iteradores para la matriz
             int i = 0, j = 0;
 
-            for (int c = 0; c < dml.Length; c++)
+
+            for (int c = 0; c < dml.GetLength(0); c++)
             {
-                if (dml[c,0].Equals(x))
+                if (dml != null && dml[c, 0] != null && dml[c,0].Equals(k))
                 {
                     i = c;
                 }
+                
             }
 
-            for (int c = 0; c < dml.Length; c++)
+            for (int c = 0; c < dml.GetLength(1); c++)
             {
-                if (dml[0, c].Equals(k))
+                if (dml != null && dml[0, c] != null && dml[0, c].Equals(x))
                 {
                     j = c;
                 }
             }
+
+            Console.WriteLine("comparacion en "+x+","+k+" " + dml[i, j]);
 
             return dml[i, j];
         }

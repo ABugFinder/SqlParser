@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using SqlParser.Simbolos;
 using SqlParser.Tablas;
+using SqlParser.DML;
 
 namespace SqlParser
 {
@@ -24,11 +25,14 @@ namespace SqlParser
         String[] palabras = new String[250];
         int[] lineas = new int[250];
 
-        public string regexT4 = "(\\W|^)[a-zA-Z]+(\\W|$)";
+        public string regexT4 = "(\\W|^)\\@?[a-zA-Z]+\\#?(\\W|$)";
         public string regexT6 = "((\\W|^)\\'[\\w\\s]*\\'(\\W|$))";
+        public string regexT1 = "(\\W|^)SELECT(\\W|$)|(\\W|^)FROM(\\W|$)|(\\W|^)WHERE(\\W|$)|(\\W|^)IN(\\W|$)|(\\W|^)AND(\\W|$)|(\\W|^)OR(\\W|$)|(\\W|^)CREATE(\\W|$)|(\\W|^)TABLE(\\W|$)|(\\W|^)CHAR(\\W|$)|(\\W|^)NUMERIC(\\W|$)|(\\W|^)NOT(\\W|$)|(\\W|^)NULL(\\W|$)|(\\W|^)CONSTRAINT(\\W|$)|(\\W|^)KEY(\\W|$)|(\\W|^)PRIMARY(\\W|$)|(\\W|^)FOREIGIN(\\W|$)| (\\W|^)FOREIGN(\\W|$)|(\\W|^)REFERENCES(\\W|$)|(\\W|^)INSERT(\\W|$)|(\\W|^)INTO(\\W|$)|(\\W|^)VALUES(\\W|$)";
 
         int contPalabras = 0;
         int contConstantes = 0, contIdentificadores = 0;
+
+        public AnalizadorSintactico analizadorSintactico;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
         public Consulta(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
@@ -39,13 +43,7 @@ namespace SqlParser
 
 
                 //imprimir las palabras en consola eliminar despues
-                for (int x = 0; x < palabras.Length; x++) {
-                    if (palabras[x] != null)
-                    {
-                        Console.WriteLine(palabras[x]);
-                    }
-                }
-
+                
                 tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores,
                                          this.nConstantes, this.lIdentificadores);
 
@@ -54,7 +52,11 @@ namespace SqlParser
                 this.llenarTablasIdentificador(tablaIdentificador, tablas);
 
                 this.llenarTablasLexica(tablaLexica, tablas);
-            
+
+                if (tablas.tablaL.error != true) {
+                    this.analizadorSintactico = new AnalizadorSintactico(tablas.tablaL);
+                }
+
             }
         }
 
@@ -65,14 +67,14 @@ namespace SqlParser
             for (int linea = 0; linea < lineas.Length; linea++)
             {
 
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\w+)"); //lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\@?\w+\#?)"); //lineas[linea].Split(',','\'',' ','.',';');
 
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
 
                     //lPalabras[numPalabra] = Regex.Replace(lPalabras[numPalabra], @"\s+", "");
 
-                    Console.WriteLine(lPalabras[numPalabra]);
+                    
                     if (lPalabras[numPalabra] != null && lPalabras[numPalabra] != "" && lPalabras[numPalabra] != " ")
                     {
                         
@@ -134,7 +136,7 @@ namespace SqlParser
 
                             //Console.WriteLine(this.constantes[0]);
                         }
-                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4))
+                        else if (lPalabras != null && lPalabras[numPalabra] != null && Regex.IsMatch(lPalabras[numPalabra], @regexT4) && !Regex.IsMatch(lPalabras[numPalabra], @regexT1))
                         { //tipo 4 - Identificador 
 
                             this.palabras[this.contPalabras] = lPalabras[numPalabra];
