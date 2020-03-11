@@ -67,7 +67,7 @@ namespace SqlParser
             for (int linea = 0; linea < lineas.Length; linea++)
             {
 
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\@?\w+\#?)"); //lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\@?\w+\#?|\')"); //lineas[linea].Split(',','\'',' ','.',';');
 
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {

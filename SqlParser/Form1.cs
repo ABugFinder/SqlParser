@@ -48,9 +48,9 @@ namespace SqlParser
             Consulta llenado = new Consulta(Texto.Text, TablaLexica, TablaConstantes, TablaIdentificador);
 
             if (llenado.tablas != null && llenado.tablas.tablaL != null && llenado.tablas.tablaL.pError != null && llenado.tablas.tablaL.error && !llenado.tablas.tablaL.pError.Equals("")) {
-                labelError.Text += " Tipo 1 - Código 101: Símbolo desconocido.";
+                labelError.Text += " Tipo 1 - Código 100: Símbolo Lexico.";
             } else if (llenado.tablas != null && llenado.analizadorSintactico != null && llenado.analizadorSintactico.error) {
-                labelError.Text += " Tipo 2 - Código 100: error sintactico "+ llenado.analizadorSintactico.pError;
+                labelError.Text += " Tipo 2 - Código 200: Error Sintactico "+ llenado.analizadorSintactico.pError;
             }
             else{
 

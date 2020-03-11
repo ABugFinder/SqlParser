@@ -55,7 +55,7 @@ namespace SqlParser.DML
             this.pila = new Pila();
             this.apunt = 0;
 
-            pila.push("$");
+            pila.push("199");
             pila.push("300");
 
             do {
