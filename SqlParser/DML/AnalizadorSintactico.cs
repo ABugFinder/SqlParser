@@ -18,6 +18,7 @@ namespace SqlParser.DML
         public bool error = false;
 
         public String pError = "";
+        public int lError;
 
         //int[] a = new int[] { 1, 2, 3 };
         public String[,] dml = new String[,] {
@@ -50,7 +51,7 @@ namespace SqlParser.DML
                 }
             }
             
-            String x, k = "199";
+            String x, k = "";
 
             this.pila = new Pila();
             this.apunt = 0;
@@ -65,14 +66,16 @@ namespace SqlParser.DML
                     Console.WriteLine("entro al if grandote");
                     x = pila.pop();
                     Console.WriteLine("pop en " + x);
-                    if (apunt >= tablaLexica.palabras.Length)
+                    if (apunt == tablaLexica.palabras.Length)
                     {
                         k = "199";
 
                     }
                     else
                     {
-
+                        
+                        lError = tablaLexica.palabras[apunt].linea;
+                        Console.WriteLine("linea: " + lError);
                         if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null && (tablaLexica.palabras[apunt].tipo == 4 || tablaLexica.palabras[apunt].tipo == 8 || tablaLexica.palabras[apunt].tipo == 61 || tablaLexica.palabras[apunt].tipo == 62))
                         {
                             Console.WriteLine("entro en tipo 4 u 8 an palabra" + tablaLexica.palabras[apunt].palabra);
@@ -103,13 +106,13 @@ namespace SqlParser.DML
                         }
                         else
                         {
-                            this.error = false;
-                            if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null)
+                            this.error = true;
+                            if (tablaLexica != null && tablaLexica.palabras != null && ((apunt < tablaLexica.palabras.Length && tablaLexica.palabras[apunt] != null) || apunt == tablaLexica.palabras.Length))
                             {
-                                this.pError = tablaLexica.palabras[apunt].palabra;
-                                Console.WriteLine("error1 " + tablaLexica.palabras[apunt].palabra);
+                               
                             }
                             apunt = tablaLexica.palabras.Length + 2;
+                            Console.WriteLine("error1 ");
                         }
 
                     }
@@ -130,6 +133,7 @@ namespace SqlParser.DML
                             {
                                 this.pError = tablaLexica.palabras[apunt].palabra;
                                 Console.WriteLine("error2 " + tablaLexica.palabras[apunt].palabra);
+                               
                             }
 
                             apunt = tablaLexica.palabras.Length + 2;
@@ -144,36 +148,7 @@ namespace SqlParser.DML
 
         }
 
-        /*
-         *  
-         *  insertarPila('$');
-         *  insertarPila(300);
-         *  insertar '$' al final de Tabla Léxica
-         *  APUN = Apuntador al primer Token de Tabla Léxica
-         *  
-         *  do{
-         *      
-         *      X = extraerPila();
-         *      K = Tabla Léxica[APUN];
-         *      if(X = TERMINAL || X = '$' -> 199){
-         *          if(X = K){
-         *              Avanzar APUN;
-         *          } else {
-         *              ERROR();
-         *          }
-         *      } else {
-         *          if(M[X,K] = PRODUCCION){
-         *              if(PRODUCCION != 'λ' -> 99){
-         *                  insertarPila(PRODUCCION); -> forma inversa
-         *              }
-         *          } else {
-         *              ERROR();
-         *          }
-         *      }
-         *      
-         *  }while(X == '$');
-         *  
-         */
+  
 
         public void pushInversa(String linea)
         {
@@ -190,10 +165,12 @@ namespace SqlParser.DML
 
             for (int x = 0; x < terminales.Length; x++)
             {
-                if (terminales[x].Equals(codigo))
+                if (terminales[x].Equals(codigo)|| codigo.Equals("52"))
                 {
                     return true;
                 }
+               
+              
             }
             return false;
         }
@@ -202,14 +179,17 @@ namespace SqlParser.DML
         {
             //Declarando iteradores para la matriz
             int i = 0, j = 0;
+           
 
 
             for (int c = 0; c < dml.GetLength(0); c++)
             {
-                if (dml != null && dml[c, 0] != null && dml[c,0].Equals(k))
+                if (dml != null && dml[c, 0] != null && dml[c, 0].Equals(k))
                 {
                     i = c;
+                   
                 }
+                
                 
             }
 
@@ -223,6 +203,9 @@ namespace SqlParser.DML
 
             Console.WriteLine("comparacion en "+x+","+k+" " + dml[i, j]);
 
+            if (k == "52") {
+                return null;
+            }
             return dml[i, j];
         }
 
