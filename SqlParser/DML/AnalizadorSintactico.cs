@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 using SqlParser.Tablas;
 
+/*
+SELECT *
+FROM PROFESORES
+WHERE EDAD >45 AND GRADO='MAE' OR GRADO='DOC'
+*/
+
 namespace SqlParser.DML
 {
     class AnalizadorSintactico
@@ -40,6 +46,13 @@ namespace SqlParser.DML
             { "72", null, "72", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
             { "199", null, null, null, "99", null, "99", null, "99", null, "99", "99", null, "99", null, null, null, null, null, null, null}
         };
+
+        public String[,] primeros = new string[,] {
+            {"300","301","302","303","304","305","306","307","308","309","310","311","312","313","314","315","316","317","318","319",},
+            {"10" ,"4 72","4","50 99","4", "51 99", "4", "50 99", "4", "40 99", "12 99", "4", "14 15 99", "4", "90 13", "8", "4 54 61", "14 15", "62", "61"}
+        };
+
+        public String[] codigoDeErrores = null;
 
         public AnalizadorSintactico(TablaLexica tablaLexica)
         {
@@ -107,10 +120,10 @@ namespace SqlParser.DML
                         else
                         {
                             this.error = true;
-                            if (tablaLexica != null && tablaLexica.palabras != null && ((apunt < tablaLexica.palabras.Length && tablaLexica.palabras[apunt] != null) || apunt == tablaLexica.palabras.Length))
-                            {
-                               
-                            }
+                            codigoDeErrores = new String[1];
+                            codigoDeErrores[0] = x;
+                            Console.WriteLine(codigoDeErrores[0]);
+                           
                             apunt = tablaLexica.palabras.Length + 2;
                             Console.WriteLine("error1 ");
                         }
@@ -129,6 +142,7 @@ namespace SqlParser.DML
                         else
                         {
                             this.error = true;
+                            codigoErroresTabla(x);
                             if (tablaLexica != null && tablaLexica.palabras != null && tablaLexica.palabras[apunt] != null)
                             {
                                 this.pError = tablaLexica.palabras[apunt].palabra;
@@ -144,7 +158,7 @@ namespace SqlParser.DML
                     apunt++;
                 }
 
-            } while(apunt < tablaLexica.palabras.Length + 1);
+            } while(apunt < tablaLexica.palabras.Length +1);
 
         }
 
@@ -201,12 +215,22 @@ namespace SqlParser.DML
                 }
             }
 
-            Console.WriteLine("comparacion en "+x+","+k+" " + dml[i, j]);
+            //Console.WriteLine("comparacion en "+x+","+k+" " + dml[i, j]);
 
             if (k == "52") {
                 return null;
             }
             return dml[i, j];
+        }
+
+        public void codigoErroresTabla(String x) {
+            for (int i = 0; i< primeros.GetLength(1); i++) {
+                if (primeros[0,i].Equals(x)) {
+                    String[] auxErrores = Regex.Split(primeros[1, i], @"\s");
+
+                    codigoDeErrores = auxErrores;
+                }
+            }
         }
 
     }

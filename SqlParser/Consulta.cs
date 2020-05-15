@@ -35,7 +35,7 @@ namespace SqlParser
         public AnalizadorSintactico analizadorSintactico;
 
         //String[] palabras, int[] lineas, String[] constantes,  String[] identificadores, int[] nConstantes, int[] lIdentificadores
-        public Consulta(String texto, DataGridView tablaLexica, DataGridView tablaConstante, DataGridView tablaIdentificador) {
+        public Consulta(String texto, DataGridView tablaLexica) {
             if (!texto.Equals("")) {
 
 
@@ -47,9 +47,9 @@ namespace SqlParser
                 tablas = new CrearTablas(this.palabras, this.lineas, this.constantes, this.identificadores,
                                          this.nConstantes, this.lIdentificadores);
 
-                this.llenarTablasConstante(tablaConstante, tablas);
+                //this.llenarTablasConstante(tablaConstante, tablas);
 
-                this.llenarTablasIdentificador(tablaIdentificador, tablas);
+                //this.llenarTablasIdentificador(tablaIdentificador, tablas);
 
                 this.llenarTablasLexica(tablaLexica, tablas);
 
@@ -67,7 +67,7 @@ namespace SqlParser
             for (int linea = 0; linea < lineas.Length; linea++)
             {
 
-                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\@?\w+\#?|\')"); //lineas[linea].Split(',','\'',' ','.',';');
+                String[] lPalabras = Regex.Split(lineas[linea], @"(\*|/|\+|\-|\,|\(|\)|\;|>=|<=|\=|<|>|\.|\'[\w\s]*\'|\@?\w+\#?|\')"); //lineas[linea].Split(',','\'',' ','.',';');
 
 
                 for (int numPalabra = 0; numPalabra < lPalabras.Length; numPalabra++) {
