@@ -38,6 +38,7 @@
             this.TipoToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodigoToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelError = new System.Windows.Forms.Label();
+            this.LabelResult = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TablaLexica)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,11 +110,21 @@
             this.labelError.TabIndex = 5;
             this.labelError.Text = "Error:";
             // 
+            // LabelResult
+            // 
+            this.LabelResult.AutoSize = true;
+            this.LabelResult.Location = new System.Drawing.Point(594, 15);
+            this.LabelResult.Name = "LabelResult";
+            this.LabelResult.Size = new System.Drawing.Size(58, 13);
+            this.LabelResult.TabIndex = 6;
+            this.LabelResult.Text = "Resultado:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 662);
+            this.Controls.Add(this.LabelResult);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.TablaLexica);
             this.Controls.Add(this.Texto);
@@ -139,6 +150,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TipoToken;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodigoToken;
         private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.Label LabelResult;
     }
 }
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 using SqlParser.Simbolos;
 using SqlParser.Tablas;
@@ -15,6 +16,9 @@ namespace SqlParser
     class Consulta
     {
         public CrearTablas tablas;
+
+        public coneccionDB conexion;
+        public bool consultaError = false;
 
         String[] identificadores = new String[50];
         int[] lIdentificadores = new int[50];
@@ -226,5 +230,11 @@ namespace SqlParser
             }
 
         }
+
+        public void consulta(String sql, Label error, Label resultado) {
+            conexion = new coneccionDB(sql, error, consultaError, resultado);
+        }
+
+        
     }
 }

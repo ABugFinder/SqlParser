@@ -14,6 +14,7 @@ namespace SqlParser
 {
     public partial class Form1 : Form
     {
+       
         public String[,] errores = new string[,] {
             {"201","204","205","206","207","208"},
             {"10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29", "4", "50 51 52 53 54", "61 62", "70 71 72 73", "8"},
@@ -46,10 +47,13 @@ namespace SqlParser
         private void BtnIniciar_Click(object sender, EventArgs e)
         {
             labelError.Text = "Error:";
+            LabelResult.Text = "Resultado:";
 
             TablaLexica.Rows.Clear();
             //TablaConstantes.Rows.Clear();
             //TablaIdentificador.Rows.Clear();
+
+
 
             Consulta llenado = new Consulta(Texto.Text, TablaLexica);
 
@@ -70,7 +74,10 @@ namespace SqlParser
             }
             else{
 
-                labelError.Text += "Sin error";
+                llenado.consulta(Texto.Text, labelError, LabelResult);
+                if (!llenado.consultaError) {
+                    labelError.Text += "Sin error";
+                }
             }
         }
 
